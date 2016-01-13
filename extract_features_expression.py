@@ -279,12 +279,12 @@ def create_sequence(naf_obj, sentence_id, overall_parameters, list_opinions=[], 
     list_feature_labels.extend(feature_labels)
     
     ##sentiment_vna
-    feature_labels = extract_sentiment_nva(naf_obj,token_ids,features, overall_parameters)
-    list_feature_labels.extend(feature_labels)
+    #feature_labels = extract_sentiment_nva(naf_obj,token_ids,features, overall_parameters)
+    #list_feature_labels.extend(feature_labels)
     
     ##lexOut 90000
-    feature_labels = extract_lexOut_90000(naf_obj,token_ids,features, overall_parameters)
-    list_feature_labels.extend(feature_labels)
+    #feature_labels = extract_lexOut_90000(naf_obj,token_ids,features, overall_parameters)
+    #list_feature_labels.extend(feature_labels)
     
     
     ########
