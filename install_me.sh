@@ -12,7 +12,7 @@ make
 CRF_PATH=`pwd`
 cd ..
 cd ..
-echo PATH_TO_CRF_TEST="$CRF_PATH/crf_test" > path_crf.py
+echo "PATH_TO_CRF_TEST='$CRF_PATH/crf_test'" > path_crf.py
 echo 
 
 
