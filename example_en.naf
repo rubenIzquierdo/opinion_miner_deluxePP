@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<KAF xml:lang="en" version="v1.naf">
+  <kafHeader>
+    <linguisticProcessors layer="text">
+      <lp name="ixa-pipe-tok-en" timestamp="2015-10-296T12:55:22+0200" version="1.5.3"/>
+    </linguisticProcessors>
+    <linguisticProcessors layer="terms">
+      <lp name="ixa-pipe-pos-en" timestamp="2015-10-296T12:55:22+0200" version="1.0.0"/>
+    </linguisticProcessors>
+    <linguisticProcessors layer="constituency">
+      <lp name="ixa-pipe-parse-en" timestamp="2015-10-296T12:55:22+0200" version="1.0.0"/>
+    </linguisticProcessors>
+    <linguisticProcessors layer="deps">
+      <lp name="ixa-pipe-srl-en" timestamp="2015-10-296T12:55:30+0200" version="1.0"/>
+    </linguisticProcessors>
+  </kafHeader>
+  <text>
+    <wf sent="1" para="1" offset="0" length="1" wid="w1">I</wf>
+    <wf sent="1" para="1" offset="2" length="4" wid="w2">said</wf>
+    <wf sent="1" para="1" offset="7" length="4" wid="w3">that</wf>
+    <wf sent="1" para="1" offset="12" length="3" wid="w4">the</wf>
+    <wf sent="1" para="1" offset="16" length="5" wid="w5">Hotel</wf>
+    <wf sent="1" para="1" offset="22" length="2" wid="w6">is</wf>
+    <wf sent="1" para="1" offset="25" length="4" wid="w7">nice</wf>
+    <wf sent="1" para="1" offset="29" length="1" wid="w8">,</wf>
+    <wf sent="1" para="1" offset="31" length="3" wid="w9">but</wf>
+    <wf sent="1" para="1" offset="35" length="5" wid="w10">staff</wf>
+    <wf sent="1" para="1" offset="41" length="2" wid="w11">is</wf>
+    <wf sent="1" para="1" offset="44" length="3" wid="w12">the</wf>
+    <wf sent="1" para="1" offset="48" length="4" wid="w13">best</wf>
+    <wf sent="1" para="1" offset="53" length="2" wid="w14">!!</wf>
+  </text>
+  <terms>
+    <!--I-->
+    <term type="close" lemma="i" pos="Q" morphofeat="PRP" tid="t1">
+      <span>
+        <target id="w1"/>
+      </span>
+    </term>
+    <!--said-->
+    <term type="open" lemma="say" pos="V" morphofeat="VBD" tid="t2">
+      <span>
+        <target id="w2"/>
+      </span>
+    </term>
+    <!--that-->
+    <term type="close" lemma="that" pos="P" morphofeat="IN" tid="t3">
+      <span>
+        <target id="w3"/>
+      </span>
+    </term>
+    <!--the-->
+    <term type="close" lemma="the" pos="D" morphofeat="DT" tid="t4">
+      <span>
+        <target id="w4"/>
+      </span>
+    </term>
+    <!--Hotel-->
+    <term type="close" lemma="Hotel" pos="R" morphofeat="NNP" tid="t5">
+      <span>
+        <target id="w5"/>
+      </span>
+    </term>
+    <!--is-->
+    <term type="open" lemma="be" pos="V" morphofeat="VBZ" tid="t6">
+      <span>
+        <target id="w6"/>
+      </span>
+    </term>
+    <!--nice-->
+    <term type="open" lemma="nice" pos="G" morphofeat="JJ" tid="t7">
+      <span>
+        <target id="w7"/>
+      </span>
+    </term>
+    <!--,-->
+    <term type="close" lemma="," pos="O" morphofeat="," tid="t8">
+      <span>
+        <target id="w8"/>
+      </span>
+    </term>
+    <!--but-->
+    <term type="close" lemma="but" pos="C" morphofeat="CC" tid="t9">
+      <span>
+        <target id="w9"/>
+      </span>
+    </term>
+    <!--staff-->
+    <term type="open" lemma="staff" pos="N" morphofeat="NN" tid="t10">
+      <span>
+        <target id="w10"/>
+      </span>
+    </term>
+    <!--is-->
+    <term type="open" lemma="be" pos="V" morphofeat="VBZ" tid="t11">
+      <span>
+        <target id="w11"/>
+      </span>
+    </term>
+    <!--the-->
+    <term type="close" lemma="the" pos="D" morphofeat="DT" tid="t12">
+      <span>
+        <target id="w12"/>
+      </span>
+    </term>
+    <!--best-->
+    <term type="open" lemma="good" pos="G" morphofeat="JJS" tid="t13">
+      <span>
+        <target id="w13"/>
+      </span>
+    </term>
+    <!--!!-->
+    <term type="open" lemma="!!" pos="N" morphofeat="NN" tid="t14">
+      <span>
+        <target id="w14"/>
+      </span>
+    </term>
+  </terms>
+  <deps>
+    <!--SBJ(said, I)-->
+    <dep from="t2" to="t1" rfunc="SBJ"/>
+    <!--OBJ(said, that)-->
+    <dep from="t2" to="t3" rfunc="OBJ"/>
+    <!--NMOD(Hotel, the)-->
+    <dep from="t5" to="t4" rfunc="NMOD"/>
+    <!--SBJ(is, Hotel)-->
+    <dep from="t6" to="t5" rfunc="SBJ"/>
+    <!--SUB(that, is)-->
+    <dep from="t3" to="t6" rfunc="SUB"/>
+    <!--PRD(is, nice)-->
+    <dep from="t6" to="t7" rfunc="PRD"/>
+    <!--P(said, ,)-->
+    <dep from="t2" to="t8" rfunc="P"/>
+    <!--COORD(is, but)-->
+    <dep from="t6" to="t9" rfunc="COORD"/>
+    <!--SBJ(is, staff)-->
+    <dep from="t11" to="t10" rfunc="SBJ"/>
+    <!--CONJ(but, is)-->
+    <dep from="t9" to="t11" rfunc="CONJ"/>
+    <!--NMOD(!!, the)-->
+    <dep from="t14" to="t12" rfunc="NMOD"/>
+    <!--NMOD(!!, best)-->
+    <dep from="t14" to="t13" rfunc="NMOD"/>
+    <!--PRD(is, !!)-->
+    <dep from="t11" to="t14" rfunc="PRD"/>
+  </deps>
+  <constituency>
+    <tree>
+      <!--Non-terminals-->
+      <nt id="nter1" label="TOP"/>
+      <nt id="nter2" label="S"/>
+      <nt id="nter3" label="S"/>
+      <nt id="nter4" label="NP"/>
+      <nt id="nter5" label="PRP"/>
+      <nt id="nter6" label="VP"/>
+      <nt id="nter7" label="VBD"/>
+      <nt id="nter8" label="SBAR"/>
+      <nt id="nter9" label="IN"/>
+      <nt id="nter10" label="S"/>
+      <nt id="nter11" label="NP"/>
+      <nt id="nter12" label="DT"/>
+      <nt id="nter13" label="NNP"/>
+      <nt id="nter14" label="VP"/>
+      <nt id="nter15" label="VBZ"/>
+      <nt id="nter16" label="ADJP"/>
+      <nt id="nter17" label="JJ"/>
+      <nt id="nter18" label=","/>
+      <nt id="nter19" label="CC"/>
+      <nt id="nter20" label="S"/>
+      <nt id="nter21" label="NP"/>
+      <nt id="nter22" label="NN"/>
+      <nt id="nter23" label="VP"/>
+      <nt id="nter24" label="VBZ"/>
+      <nt id="nter25" label="NP"/>
+      <nt id="nter26" label="DT"/>
+      <nt id="nter27" label="JJS"/>
+      <nt id="nter28" label="NN"/>
+      <!--Terminals-->
+      <!--I-->
+      <t id="ter1">
+        <span>
+          <target id="t1"/>
+        </span>
+      </t>
+      <!--said-->
+      <t id="ter2">
+        <span>
+          <target id="t2"/>
+        </span>
+      </t>
+      <!--that-->
+      <t id="ter3">
+        <span>
+          <target id="t3"/>
+        </span>
+      </t>
+      <!--the-->
+      <t id="ter4">
+        <span>
+          <target id="t4"/>
+        </span>
+      </t>
+      <!--Hotel-->
+      <t id="ter5">
+        <span>
+          <target id="t5"/>
+        </span>
+      </t>
+      <!--is-->
+      <t id="ter6">
+        <span>
+          <target id="t6"/>
+        </span>
+      </t>
+      <!--nice-->
+      <t id="ter7">
+        <span>
+          <target id="t7"/>
+        </span>
+      </t>
+      <!--,-->
+      <t id="ter8">
+        <span>
+          <target id="t8"/>
+        </span>
+      </t>
+      <!--but-->
+      <t id="ter9">
+        <span>
+          <target id="t9"/>
+        </span>
+      </t>
+      <!--staff-->
+      <t id="ter10">
+        <span>
+          <target id="t10"/>
+        </span>
+      </t>
+      <!--is-->
+      <t id="ter11">
+        <span>
+          <target id="t11"/>
+        </span>
+      </t>
+      <!--the-->
+      <t id="ter12">
+        <span>
+          <target id="t12"/>
+        </span>
+      </t>
+      <!--best-->
+      <t id="ter13">
+        <span>
+          <target id="t13"/>
+        </span>
+      </t>
+      <!--!!-->
+      <t id="ter14">
+        <span>
+          <target id="t14"/>
+        </span>
+      </t>
+      <!--Tree edges-->
+      <edge id="tre2" from="nter2" to="nter1" head="yes"/>
+      <edge id="tre3" from="nter3" to="nter2" head="yes"/>
+      <edge id="tre4" from="nter4" to="nter3"/>
+      <edge id="tre5" from="nter5" to="nter4" head="yes"/>
+      <edge id="tre6" from="ter1" to="nter5"/>
+      <edge id="tre7" from="nter6" to="nter3" head="yes"/>
+      <edge id="tre8" from="nter7" to="nter6" head="yes"/>
+      <edge id="tre9" from="ter2" to="nter7"/>
+      <edge id="tre10" from="nter8" to="nter6"/>
+      <edge id="tre11" from="nter9" to="nter8"/>
+      <edge id="tre12" from="ter3" to="nter9"/>
+      <edge id="tre13" from="nter10" to="nter8" head="yes"/>
+      <edge id="tre14" from="nter11" to="nter10"/>
+      <edge id="tre15" from="nter12" to="nter11"/>
+      <edge id="tre16" from="ter4" to="nter12"/>
+      <edge id="tre17" from="nter13" to="nter11" head="yes"/>
+      <edge id="tre18" from="ter5" to="nter13"/>
+      <edge id="tre19" from="nter14" to="nter10" head="yes"/>
+      <edge id="tre20" from="nter15" to="nter14"/>
+      <edge id="tre21" from="ter6" to="nter15"/>
+      <edge id="tre22" from="nter16" to="nter14" head="yes"/>
+      <edge id="tre23" from="nter17" to="nter16" head="yes"/>
+      <edge id="tre24" from="ter7" to="nter17"/>
+      <edge id="tre25" from="nter18" to="nter2"/>
+      <edge id="tre26" from="ter8" to="nter18"/>
+      <edge id="tre27" from="nter19" to="nter2"/>
+      <edge id="tre28" from="ter9" to="nter19"/>
+      <edge id="tre29" from="nter20" to="nter2"/>
+      <edge id="tre30" from="nter21" to="nter20"/>
+      <edge id="tre31" from="nter22" to="nter21" head="yes"/>
+      <edge id="tre32" from="ter10" to="nter22"/>
+      <edge id="tre33" from="nter23" to="nter20" head="yes"/>
+      <edge id="tre34" from="nter24" to="nter23"/>
+      <edge id="tre35" from="ter11" to="nter24"/>
+      <edge id="tre36" from="nter25" to="nter23" head="yes"/>
+      <edge id="tre37" from="nter26" to="nter25"/>
+      <edge id="tre38" from="ter12" to="nter26"/>
+      <edge id="tre39" from="nter27" to="nter25"/>
+      <edge id="tre40" from="ter13" to="nter27"/>
+      <edge id="tre41" from="nter28" to="nter25" head="yes"/>
+      <edge id="tre42" from="ter14" to="nter28"/>
+    </tree>
+  </constituency>
+</KAF>
