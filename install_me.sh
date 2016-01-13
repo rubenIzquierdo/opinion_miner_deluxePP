@@ -14,5 +14,13 @@ cd ..
 cd ..
 echo PATH_TO_CRF_TEST="$CRF_PATH/crf_test" > path_crf.py
 echo 
+
+
+##Download the models
+echo Downloading the trained models, you will be asked for the password during the process
+wget --user=cltl --ask-password kyoto.let.vu.nl/~izquierdo/models_opinion_miner_deluxePP.tgz 2> /dev/null
+tar xvzf models_opinion_miner_deluxePP.tgz
+rm models_opinion_miner_deluxePP.tgz
+
 echo All Done
 
