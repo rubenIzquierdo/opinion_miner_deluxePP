@@ -456,10 +456,10 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
         
           
     ##Load the sentiment-nva-gi42.txt
-    overall_parameters['sentiment-nva-gi42'] = load_sentiment_nva_gi42()  
+    ##overall_parameters['sentiment-nva-gi42'] = load_sentiment_nva_gi42()  
     
     
-    overall_parameters['lexOut_90000_monovalue'] = load_lexOut_90000()
+    ##overall_parameters['lexOut_90000_monovalue'] = load_lexOut_90000()
 
     if overall_parameters['use_mpqa_lexicon']:
         from mpqa_lexicon import MPQA_subjectivity_lexicon
