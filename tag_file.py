@@ -71,7 +71,7 @@ def add_opinions(opinion_triples,kaf_naf_obj):
             my_hol = Cholder()
             my_hol.set_span(span_hol)
             hol_text = ' '.join(H.word_list)
-            my_hol.set_comment(hol_text)  
+            my_hol.set_comment(hol_text.decode('utf-8'))  
             new_opinion.set_holder(my_hol)  
             
         #Creating target
@@ -81,7 +81,7 @@ def add_opinions(opinion_triples,kaf_naf_obj):
             my_tar = opinion_data.Ctarget()
             my_tar.set_span(span_tar)
             tar_text = ' '.join(T.word_list)
-            my_tar.set_comment(tar_text)
+            my_tar.set_comment(tar_text.decode('utf-8'))
             new_opinion.set_target(my_tar)
             #########################    
 
@@ -94,7 +94,7 @@ def add_opinions(opinion_triples,kaf_naf_obj):
         #if include_polarity_strength:
         my_exp.set_strength("1")
         exp_text = ' '.join(E.word_list)
-        my_exp.set_comment(exp_text)
+        my_exp.set_comment(exp_text.decode('utf-8'))
         new_opinion.set_expression(my_exp)
         
         kaf_naf_obj.add_opinion(new_opinion)
