@@ -52,7 +52,10 @@ To check if the installation was correct you can run this command:
 ```
 cat example_en.naf | tag_file.py -d hotel
 ```
-You should get a NAF file with opinions in the output.
+You should get a NAF file with opinions in the output. The script will assume to find the models in a predefined path, you can also specify the path to the folder where you have the models with the option `-f`:
+```
+cat example_en.naf | tag_file.py -f path/to/my_model/
+```
 
 ##Usage of the opinion tagger##
 
@@ -60,15 +63,16 @@ The main script for tagging opinions is `tag_file.py`. It takes a KAF/NAF file a
 by running:
 ```
 tag_file.py -h
-usage: tag_file.py [-h] [-v] -d DOMAIN [-log]
+usage: tag_file.py [-h] [-v] (-d DOMAIN | -f PATH_TO_FOLDER) [-log]
 
 Detects opinions in KAF/NAF files
 
 optional arguments:
-  -h, --help     show this help message and exit
-  -v, --version  show program's version number and exit
-  -d DOMAIN      Domain for the model (hotel,news)
-  -log           Show log information
+  -h, --help         show this help message and exit
+  -v, --version      show program's version number and exit
+  -d DOMAIN          Domain for the model (hotel,news)
+  -f PATH_TO_FOLDER  Path to a folder containing the model
+  -log               Show log information
 
 Example of use: cat example.naf | tag_file.py -d hotel
 ```
