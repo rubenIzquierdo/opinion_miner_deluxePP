@@ -108,7 +108,10 @@ def add_opinions(opinion_triples,kaf_naf_obj):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detects opinions in KAF/NAF files', version=__version, epilog='Example of use:  cat example.naf | %(prog)s -d hotel')
     #parser.add_argument('-f',dest='input_file', required=True,help='Input KAF/NAF file')
-    parser.add_argument('-d', dest='domain', required=True, help='Domain for the model (hotel,news)')
+    input_group = parser.add_mutually_exclusive_group(required=True)
+    
+    input_group.add_argument('-d', dest='domain', help='Domain for the model (hotel,news)')
+    input_group.add_argument('-f', dest='path_to_folder', help='Path to a folder containing the model')
     parser.add_argument('-log',dest='log',action='store_true',help='Show log information')
     
     if len(sys.argv) == 1:
@@ -138,7 +141,12 @@ if __name__ == '__main__':
     if args.log:
         print>>sys.stderr,'Language in the file: %s' % language
         
-    model_folder='models/models_%s_%s' % (args.domain,language)
+    model_folder=None
+    if args.domain:
+        model_folder='models/models_%s_%s' % (args.domain,language)
+    else:
+        model_folder=args.path_to_folder
+    
     if args.log:
         print>>sys.stderr,'Model folder: %s' % model_folder
     
