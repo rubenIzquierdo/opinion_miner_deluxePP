@@ -15,10 +15,14 @@ from subprocess import Popen, PIPE
 
 from path_crf import PATH_TO_CRF_TEST
 from KafNafParserPy import *
+from polarity_classifier import PolarityClassifier
+
 
 __desc = 'Opinion Miner Deluxe'
 __last_edited = '7jan2016'
 __version = '3.0'
+
+__here__ = os.path.realpath(os.path.dirname(__file__))
 
 
 def add_opinions(opinion_triples,kaf_naf_obj):
@@ -112,7 +116,9 @@ if __name__ == '__main__':
     
     input_group.add_argument('-d', dest='domain', help='Domain for the model (hotel,news)')
     input_group.add_argument('-f', dest='path_to_folder', help='Path to a folder containing the model')
+    
     parser.add_argument('-log',dest='log',action='store_true',help='Show log information')
+    parser.add_argument('-polarity', dest='polarity', action='store_true', help='Run the polarity (positive/negative) classifier too')
     
     if len(sys.argv) == 1:
         #To print by default the help, in case 
@@ -356,6 +362,11 @@ if __name__ == '__main__':
     
     ## CREATE THE KAF/NAF OPINIONS
     add_opinions(final_triples,kaf_naf_obj)
+    
+    if args.polarity:
+        my_polarity_classifier = PolarityClassifier(language)
+        my_polarity_classifier.load_models(os.path.join(__here__,'polarity_models',language))
+        my_polarity_classifier.classify_kaf_naf_object(kaf_naf_obj)
     
     kaf_naf_obj.dump()
     

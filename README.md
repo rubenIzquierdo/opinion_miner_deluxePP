@@ -73,8 +73,9 @@ optional arguments:
   -d DOMAIN          Domain for the model (hotel,news)
   -f PATH_TO_FOLDER  Path to a folder containing the model
   -log               Show log information
+  -polarity          Run the polarity (positive/negative) classifier too
 
-Example of use: cat example.naf | tag_file.py -d hotel
+Example of use: cat example.naf | tag_file.py -d hotel -polarity
 ```
 
 
