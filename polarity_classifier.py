@@ -163,8 +163,11 @@ class PolarityClassifier:
                 opinion_expression = opinion.get_expression()
                 polarity = opinion_expression.get_polarity()
                 
+                span_obj = opinion_expression.get_span()
+                if span_obj is None:
+                    continue
                 
-                list_term_ids = opinion_expression.get_span().get_span_ids()
+                list_term_ids = span_obj.get_span_ids()
                 features = self.extract_features(this_obj, list_term_ids)
                 
             
@@ -229,10 +232,31 @@ class PolarityClassifier:
                 
     
     def is_positive(self, this_polarity):
-        return this_polarity in ['Positive', 'StrongPositive']
+        positive = False
+        if this_polarity in ['Positive', 'StrongPositive']:
+            positive = True
+        elif 'polarity_dse=positive' in this_polarity:
+            positive = True
+        elif 'polarity_dse=uncertain-positive' in this_polarity:
+            positive = True
+        elif 'Positive' in this_polarity:
+            positive = True
+        
+        return positive
 
     def is_negative(self, this_polarity):
-        return this_polarity in ['Negative', 'StrongNegative']
+        negative = False
+        if this_polarity in ['Negative', 'StrongNegative']:
+            negative = True
+        elif 'polarity_dse=negative' in this_polarity:
+            negative = True
+        elif 'polarity_dse=uncertain-negative' in this_polarity:
+            negative = True
+        elif 'Negative' in this_polarity:
+            positive = True
+        
+        return negative
+        
     
     
     def load_models(self,folder):
@@ -250,9 +274,9 @@ class PolarityClassifier:
         
     def decide_class(self,float_value):
         if float_value >= 0.0:
-            return 'Positive'
+            return 'positive'
         else:
-            return 'Negative'
+            return 'negative'
         
     def classify_list_opinions(self,this_obj, list_id_and_term_ids):
         class_for_opinion_id = {}

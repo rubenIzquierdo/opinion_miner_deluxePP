@@ -111,6 +111,7 @@ def add_opinions(opinion_triples,kaf_naf_obj):
         
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detects opinions in KAF/NAF files', version=__version, epilog='Example of use:  cat example.naf | %(prog)s -d hotel')
+    
     #parser.add_argument('-f',dest='input_file', required=True,help='Input KAF/NAF file')
     input_group = parser.add_mutually_exclusive_group(required=True)
     
@@ -119,6 +120,7 @@ if __name__ == '__main__':
     
     parser.add_argument('-log',dest='log',action='store_true',help='Show log information')
     parser.add_argument('-polarity', dest='polarity', action='store_true', help='Run the polarity (positive/negative) classifier too')
+    parser.add_argument('-keep-opinions',dest='keep_opinions',action='store_true',help='Keep the opinions from the input (by default will be deleted)')
     
     if len(sys.argv) == 1:
         #To print by default the help, in case 
@@ -136,6 +138,9 @@ if __name__ == '__main__':
     if args.log:
         print>>sys.stderr,'Path to CRF TEST: %s' % PATH_TO_CRF_TEST                                                  
     kaf_naf_obj = KafNafParser(sys.stdin)
+    
+    if not args.keep_opinions:
+        kaf_naf_obj.remove_opinion_layer()
     
     # We need to set this manually because the identifier for CRF will be the concatenation
     # of the filename and the token id, and it's a <File> object if we create the kaf_naf_obj

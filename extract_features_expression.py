@@ -13,7 +13,8 @@ import KafNafParserPy
 try:
     import cPickle as pickler
 except:
-    import pickle as picker
+    import pickle as pickler
+
 
 WORDNET_LEXICON_FILENAME = 'my_wn_exp_lex.bin'
 TRAINING_FILENAME='training.expression'
@@ -118,11 +119,12 @@ def extract_mpqa(naf_obj, list_token_ids, features, overall_options):
     mpqa_label = 'in_mpqa_lexicon'
 
     constituency_extractor = naf_obj.get_constituency_extractor()
-    if overall_options.get('use_mpqa_lexicon',False):
-        mpqa_lexicon = overall_options.get('wordnet_lexicon')
-    else:
-        #We dont extract anything
-        return [mpqa_label]
+    
+    #if overall_options.get('use_mpqa_lexicon',False):
+    #    mpqa_lexicon = overall_options.get('wordnet_lexicon')
+    #else:
+    #    #We dont extract anything
+    #    return [mpqa_label]
     
     mpqa_lexicon = overall_options.get('mpqa_lexicon')
     if mpqa_lexicon is None:
@@ -145,7 +147,7 @@ def extract_mpqa(naf_obj, list_token_ids, features, overall_options):
                 features[token_id][mpqa_label] = '1'
                 
                 ##Add also the other in the same chunk
-                if constituency_extractor is not None:
+                if False and constituency_extractor is not None:
                     deepest_chunk_and_terms = constituency_extractor.get_deepest_phrase_for_termid(term_id)  #('NP', ['t6', 't7', 't8'])
                     for sub_term_id in deepest_chunk_and_terms[1]:
                         sub_token_ids = naf_obj.get_term(sub_term_id).get_span().get_span_ids()
@@ -239,6 +241,23 @@ def extract_lexOut_90000(naf_obj,list_token_ids,features, overall_parameters):
                 #features[token_id][this_label] = '1'
     return [this_label]
         
+        
+def extract_from_lexicon(naf_obj,list_token_ids,features, overall_parameters):
+    this_label = 'custom_lexicon'
+    for token_id in list_token_ids:
+        term_id = naf_obj.termid_for_tokenid[token_id]
+        term_obj = naf_obj.get_term(term_id)
+        if term_obj is not None:
+            lemma = term_obj.get_lemma().lower()
+            kaf_pos = term_obj.get_pos()
+            lexicon_value = overall_parameters['custom_lexicon'].get_polarity(lemma)
+            if lexicon_value is not None:
+                features[token_id][this_label] = lexicon_value
+                
+    return [this_label]
+            
+    
+
 def create_sequence(naf_obj, sentence_id, overall_parameters, list_opinions=[], output=sys.stdout, log=False):
     if log:
         print>>sys.stderr, '\t\tCreating sequence for the sentence', sentence_id, 'and the opinions', ' '.join(opinion.get_id() for opinion in list_opinions)
@@ -286,6 +305,11 @@ def create_sequence(naf_obj, sentence_id, overall_parameters, list_opinions=[], 
     #feature_labels = extract_lexOut_90000(naf_obj,token_ids,features, overall_parameters)
     #list_feature_labels.extend(feature_labels)
     
+    
+    #USA STE BONICO
+    ##This is good one to use
+    #feature_labels = extract_from_lexicon(naf_obj,token_ids,features, overall_parameters)
+    #list_feature_labels.extend(feature_labels)
     
     ########
     # We dont use the custom lexicon for now
@@ -438,7 +462,7 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
         files.append(inputfile)
         
         #Output FD will be a temporary file
-        output_fd = tempfile.NamedTemporaryFile('w', delete=False)
+        output_fd = tempfile.NamedTemporaryFile('w', dir=folder, delete=False)
     elif type == 'test':
         parameter_filename = os.path.join(folder,PARAMETERS_FILENAME)
         fd_param = open(parameter_filename,'r')
@@ -461,9 +485,9 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
     
     ##overall_parameters['lexOut_90000_monovalue'] = load_lexOut_90000()
 
-    if overall_parameters['use_mpqa_lexicon']:
-        from mpqa_lexicon import MPQA_subjectivity_lexicon
-        overall_parameters['mpqa_lexicon'] = MPQA_subjectivity_lexicon()
+    ###if overall_parameters['use_mpqa_lexicon']:
+    from mpqa_lexicon import MPQA_subjectivity_lexicon
+    overall_parameters['mpqa_lexicon'] = MPQA_subjectivity_lexicon()
     
     
     if overall_parameters.get('use_wordnet_lexicon', False):
@@ -493,7 +517,11 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
     #overall_parameters['custom_lexicon'] = CustomizedLexicon()
     #overall_parameters['custom_lexicon'].load_from_filename('EXP.nl')
     ###########################
-        
+
+    #from customized_lexicon import CustomizedLexicon
+    #overall_parameters['custom_lexicon'] = CustomizedLexicon()
+    #overall_parameters['custom_lexicon'].load_for_language('it')
+    
     for filename in files:
         if log:
             print>>sys.stderr,'EXPRESSION: processing file', filename
