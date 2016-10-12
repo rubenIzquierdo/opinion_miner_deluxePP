@@ -462,7 +462,7 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
         files.append(inputfile)
         
         #Output FD will be a temporary file
-        output_fd = tempfile.NamedTemporaryFile('w', dir=folder, delete=False)
+        output_fd = tempfile.NamedTemporaryFile('w', delete=False)
     elif type == 'test':
         parameter_filename = os.path.join(folder,PARAMETERS_FILENAME)
         fd_param = open(parameter_filename,'r')
