@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+from __future__ import print_function
 import sys
 from collections import defaultdict
 from KafNafParserPy import KafNafParser
@@ -142,7 +144,7 @@ if __name__ == '__main__':
         target_entities_per_filename[t.filename].append(t)
     
     
-    for filename, list_targets in target_entities_per_filename.items():
+    for filename, list_targets in list(target_entities_per_filename.items()):
         knaf_obj = KafNafParser(filename)
         expression_candidates = []
         for expression in expression_entities:
@@ -152,9 +154,9 @@ if __name__ == '__main__':
         matched_pairs = match_entities(expression_candidates, list_targets, knaf_obj)
     
         for exp, tar in matched_pairs:
-            print exp.to_line()
-            print tar.to_line()
-            print
+            print(exp.to_line())
+            print(tar.to_line())
+            print()
     
 
  

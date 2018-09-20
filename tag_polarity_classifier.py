@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+from __future__ import print_function
 import sys
 
 from polarity_classifier import PolarityClassifier
@@ -40,7 +42,7 @@ if __name__ == '__main__':
                 
     
         class_for_opinion_id, features_for_opinion_id = my_polarity_classifier.classify_list_opinions(this_obj, list_ids_term_ids)
-        for oid, c in class_for_opinion_id.items():
+        for oid, c in list(class_for_opinion_id.items()):
             #print '%s Gold:%s   System:%s'  % (oid,GOLD[oid],c)
             #print '\tFeatures:', features_for_opinion_id[oid]
             if c.lower() in GOLD[oid].lower():
