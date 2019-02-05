@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+from __future__ import print_function
 import argparse
 from polarity_classifier import PolarityClassifier
 
@@ -22,7 +24,7 @@ if __name__ == '__main__':
             training_files.append(line.strip())
     fd.close()
     
-    print 'Total training files: %d' % len(training_files)
+    print('Total training files: %d' % len(training_files))
     
     my_polarity_classifier = PolarityClassifier('nl')
     my_polarity_classifier.train(training_files, args.output_folder)

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 
+from __future__ import print_function
 import os
 import sys
 import argparse
@@ -75,7 +76,7 @@ def add_opinions(opinion_triples,kaf_naf_obj):
             my_hol = Cholder()
             my_hol.set_span(span_hol)
             hol_text = ' '.join(H.word_list)
-            my_hol.set_comment(hol_text.decode('utf-8'))  
+            my_hol.set_comment(hol_text)  
             new_opinion.set_holder(my_hol)  
             
         #Creating target
@@ -85,7 +86,7 @@ def add_opinions(opinion_triples,kaf_naf_obj):
             my_tar = opinion_data.Ctarget()
             my_tar.set_span(span_tar)
             tar_text = ' '.join(T.word_list)
-            my_tar.set_comment(tar_text.decode('utf-8'))
+            my_tar.set_comment(tar_text)
             new_opinion.set_target(my_tar)
             #########################    
 
@@ -98,7 +99,7 @@ def add_opinions(opinion_triples,kaf_naf_obj):
         #if include_polarity_strength:
         my_exp.set_strength("1")
         exp_text = ' '.join(E.word_list)
-        my_exp.set_comment(exp_text.decode('utf-8'))
+        my_exp.set_comment(exp_text)
         new_opinion.set_expression(my_exp)
         
         kaf_naf_obj.add_opinion(new_opinion)
@@ -110,7 +111,8 @@ def add_opinions(opinion_triples,kaf_naf_obj):
 
         
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Detects opinions in KAF/NAF files', version=__version, epilog='Example of use:  cat example.naf | %(prog)s -d hotel')
+    parser = argparse.ArgumentParser(description='Detects opinions in KAF/NAF files', epilog='Example of use:  cat example.naf | %(prog)s -d hotel')
+    parser.add_argument('--version', action='version', version='%(prog)s __version')
     
     #parser.add_argument('-f',dest='input_file', required=True,help='Input KAF/NAF file')
     input_group = parser.add_mutually_exclusive_group(required=True)
@@ -130,13 +132,13 @@ if __name__ == '__main__':
     
     
     if sys.stdin.isatty():
-        print>>sys.stderr,'Input stream required'
-        print>>sys.stderr,'Example usage: cat my_file.naf | %s' % sys.argv[0]
+        print('Input stream required', file=sys.stderr)
+        print('Example usage: cat my_file.naf | %s' % sys.argv[0], file=sys.stderr)
         parser.print_help(sys.stderr)
         sys.exit(-1)
     
     if args.log:
-        print>>sys.stderr,'Path to CRF TEST: %s' % PATH_TO_CRF_TEST                                                  
+        print('Path to CRF TEST: %s' % PATH_TO_CRF_TEST, file=sys.stderr)                                                  
     kaf_naf_obj = KafNafParser(sys.stdin)
     
     if not args.keep_opinions:
@@ -150,7 +152,7 @@ if __name__ == '__main__':
    
     language = kaf_naf_obj.get_language()
     if args.log:
-        print>>sys.stderr,'Language in the file: %s' % language
+        print('Language in the file: %s' % language, file=sys.stderr)
         
     model_folder=None
     if args.domain:
@@ -159,11 +161,11 @@ if __name__ == '__main__':
         model_folder=args.path_to_folder
     
     if args.log:
-        print>>sys.stderr,'Model folder: %s' % model_folder
+        print('Model folder: %s' % model_folder, file=sys.stderr)
     
     if not os.path.exists(model_folder):
-        print>>sys.stderr,'There are no models for the domain %s' % args.domain
-        print>>sys.stderr,'    Model folder should be: %s' % model_folder
+        print('There are no models for the domain %s' % args.domain, file=sys.stderr)
+        print('    Model folder should be: %s' % model_folder, file=sys.stderr)
         sys.exit(-1)
     
     #########################################
@@ -329,31 +331,31 @@ if __name__ == '__main__':
         
         
     if args.log:
-        print>>sys.stderr, 'FOUND ENTITIES'
-        print>>sys.stderr, '  Expressions'
+        print('FOUND ENTITIES', file=sys.stderr)
+        print('  Expressions', file=sys.stderr)
         for list_ids, list_words in expression_sequences:
-            print>>sys.stderr, '    ==>', ' '.join(list_words), str(list_ids)
-        print>>sys.stderr, '  Targets'
+            print('    ==>', ' '.join(list_words), str(list_ids), file=sys.stderr)
+        print('  Targets', file=sys.stderr)
         for list_ids, list_words in target_sequences:
-            print>>sys.stderr, '    ==>', ' '.join(list_words), str(list_ids)
-        print>>sys.stderr ,'  Holders'
+            print('    ==>', ' '.join(list_words), str(list_ids), file=sys.stderr)
+        print('  Holders', file=sys.stderr)
         for list_ids, list_words in holder_sequences:
-            print>>sys.stderr ,'    ==>', ' '.join(list_words), str(list_ids)
-        print>>sys.stderr
-        print>>sys.stderr
-        print>>sys.stderr, '  Complete opinions'
+            print('    ==>', ' '.join(list_words), str(list_ids), file=sys.stderr)
+        print(file=sys.stderr)
+        print(file=sys.stderr)
+        print('  Complete opinions', file=sys.stderr)
         for e, t, h in final_triples:
-            print>>sys.stderr, '    ==>'
-            print>>sys.stderr ,'      Expression:', e.to_line()
+            print('    ==>', file=sys.stderr)
+            print('      Expression:', e.to_line(), file=sys.stderr)
             if t is None:
-                print>>sys.stderr, '      Target: NONE'
+                print('      Target: NONE', file=sys.stderr)
             else:
-                print>>sys.stderr, '      Target:', t.to_line()
+                print('      Target:', t.to_line(), file=sys.stderr)
             
             if h is None:
-                print>>sys.stderr, '      Holder: NONE'
+                print('      Holder: NONE', file=sys.stderr)
             else:
-                print>>sys.stderr, '      Holder:', h.to_line()
+                print('      Holder:', h.to_line(), file=sys.stderr)
             
              
     

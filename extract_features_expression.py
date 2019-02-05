@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import sys
 import os
 import argparse
@@ -11,7 +12,7 @@ from collections import defaultdict
 import KafNafParserPy
 
 try:
-    import cPickle as pickler
+    import pickle as pickler
 except:
     import pickle as pickler
 
@@ -128,7 +129,7 @@ def extract_mpqa(naf_obj, list_token_ids, features, overall_options):
     
     mpqa_lexicon = overall_options.get('mpqa_lexicon')
     if mpqa_lexicon is None:
-        print>>sys.stderr,'WARNING!! MPQA lexicon features selected by the lexicon has not been loaded!!!'
+        print('WARNING!! MPQA lexicon features selected by the lexicon has not been loaded!!!', file=sys.stderr)
         return [mpqa_label]
     
     for token_id in list_token_ids:
@@ -260,7 +261,7 @@ def extract_from_lexicon(naf_obj,list_token_ids,features, overall_parameters):
 
 def create_sequence(naf_obj, sentence_id, overall_parameters, list_opinions=[], output=sys.stdout, log=False):
     if log:
-        print>>sys.stderr, '\t\tCreating sequence for the sentence', sentence_id, 'and the opinions', ' '.join(opinion.get_id() for opinion in list_opinions)
+        print('\t\tCreating sequence for the sentence', sentence_id, 'and the opinions', ' '.join(opinion.get_id() for opinion in list_opinions), file=sys.stderr)
         
     # Get all the token ids that belong to the sentence id
     token_ids = []
@@ -354,7 +355,7 @@ def create_sequence(naf_obj, sentence_id, overall_parameters, list_opinions=[], 
         ############################################
 
         this_str = '\t'.join(values_to_print)
-        output.write(this_str.encode('utf-8')+'\n')        
+        output.write(this_str+'\n')        
         #print '\t'.join(values_to_print)
     output.write('\n')
     
@@ -373,7 +374,7 @@ def create_gold_standard(naf_obj,opinion_list,gold_fd):
             list_text_tokens.sort( key=lambda t: t[2])
             ids = [this_id for this_id, this_text, this_offset in list_text_tokens]
             values = [this_text for this_id, this_text, this_offset in list_text_tokens]
-            gold_fd.write('%s\t%s\t%s\n' % (label,(' '.join(values)).encode('utf-8'),' '.join(ids)))
+            gold_fd.write('%s\t%s\t%s\n' % (label,(' '.join(values)),' '.join(ids)))
             
            
 def map_pos_to_sentiment_nva(this_pos):
@@ -403,7 +404,7 @@ def load_sentiment_nva_gi42():
         #this_lexicon[(fields[0],fields[1])] = fields[2]
         polarities_for_lemma[fields[0]].add(fields[2])
         
-    for lemma, polarities in polarities_for_lemma.items():
+    for lemma, polarities in list(polarities_for_lemma.items()):
         if len(polarities) == 1:
             this_lexicon[lemma] = list(polarities)[0]
     fd.close()
@@ -422,7 +423,7 @@ def load_lexOut_90000():
             #this_lexicon[(fields[0],fields[1])] = fields[2]
             polarities_for_lemma[fields[0]].add(fields[2])
         
-    for lemma, polarities in polarities_for_lemma.items():
+    for lemma, polarities in list(polarities_for_lemma.items()):
         if len(polarities) == 1:
             this_lexicon[lemma] = list(polarities)[0]
     fd.close()
@@ -443,7 +444,7 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
         parameter_filename = os.path.join(folder,PARAMETERS_FILENAME)
         fd_parameter = open(parameter_filename,'w')
         pickler.dump(overall_parameters,fd_parameter,protocol=0)
-        print>>sys.stderr,'Parameters saved to file %s' % parameter_filename
+        print('Parameters saved to file %s' % parameter_filename, file=sys.stderr)
         fd_parameter.close()
         
         #Input is a files with a list of files
@@ -454,8 +455,11 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
         
     elif type == 'tag':
         parameter_filename = os.path.join(folder,PARAMETERS_FILENAME)
-        fd_param = open(parameter_filename,'r')
-        overall_parameters = pickler.load(fd_param)
+        fd_param = open(parameter_filename,'rb')
+        try:
+            overall_parameters = pickler.load(fd_param,encoding='bytes')
+        except TypeError:
+            overall_parameters = pickler.load(fd_param)
         fd_param.close()
 
         #Input is a isngle file
@@ -468,7 +472,7 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
         fd_param = open(parameter_filename,'r')
         these_overall_parameters = pickler.load(fd_param)
         fd_param.close()
-        for opt, val in these_overall_parameters.items():
+        for opt, val in list(these_overall_parameters.items()):
             overall_parameters[opt] = val
         
         #Input is a files with a list of files
@@ -497,7 +501,7 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
 
         if type == 'train':
             #We create it from the training files
-            print>>sys.stderr,'Creating WORDNET LEXICON FILE from %d files and storing it on %s' % (len(files), complete_wn_filename)
+            print('Creating WORDNET LEXICON FILE from %d files and storing it on %s' % (len(files), complete_wn_filename), file=sys.stderr)
             wordnet_lexicon_expression.create_from_files(files,'expression')
             wordnet_lexicon_expression.save_to_file(complete_wn_filename)
         else:
@@ -524,7 +528,7 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
     
     for filename in files:
         if log:
-            print>>sys.stderr,'EXPRESSION: processing file', filename
+            print('EXPRESSION: processing file', filename, file=sys.stderr)
         
         if isinstance(filename,KafNafParser):
             naf_obj = filename
@@ -547,7 +551,7 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
                         opinions_per_sentence[sentence_id].append(opinion)
                         num_opinions += 1
         if log:
-            print>>sys.stderr,'\tNum of opinions:', num_opinions
+            print('\tNum of opinions:', num_opinions, file=sys.stderr)
         
         
         if type == 'train':
@@ -570,7 +574,7 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
                     
             ## Create the gold standard data also
             opinion_list = []
-            for this_sentence, these_opinions in opinions_per_sentence.items():
+            for this_sentence, these_opinions in list(opinions_per_sentence.items()):
                 opinion_list.extend(these_opinions)
             if gold_fd is not None:
                 create_gold_standard(naf_obj,opinion_list,gold_fd)
@@ -583,7 +587,7 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
             
     if gold_fd is not None:
         gold_fd.close() 
-        print>>sys.stderr,'Gold standard in the file %s' % gold_fd.name
+        print('Gold standard in the file %s' % gold_fd.name, file=sys.stderr)
         
     output_fd.close()
     return output_fd.name
@@ -591,7 +595,8 @@ def main(inputfile, type, folder, overall_parameters={},log=False):
 
 
 if __name__ == '__main__':
-    argument_parser = argparse.ArgumentParser(description='Extract features and prepare for training/testing from a list of KAF/NAF files', version='1.0')
+    argument_parser = argparse.ArgumentParser(description='Extract features and prepare for training/testing from a list of KAF/NAF files')
+    argument_parser.add_argument('--version', action='version', version='%(prog)s 1.0')
     argument_parser.add_argument('-i', dest='inputfile', required=True,help='Input file with a list of paths to KAF/NAF files (one per line)')
     argument_parser.add_argument('-t', dest='type', choices=['train', 'test','tag'], required=True,  default='train', help='Whether to train or test')
     argument_parser.add_argument('-mpqa', dest='use_mpqa_lexicon', action='store_true', help='Use the MPQA lexicon')
